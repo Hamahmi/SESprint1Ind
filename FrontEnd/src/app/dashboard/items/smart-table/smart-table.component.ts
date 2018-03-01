@@ -20,6 +20,7 @@ export class SmartTableComponent {
       id: {
         title: 'ID',
         type: 'number',
+        editable: false
       },
       name: {
         title: 'Name',
@@ -73,7 +74,8 @@ export class SmartTableComponent {
       if (res.msg === 'Products retrieved successfully.') {
         var prdc = new Array();
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].sellerName === 'Hamahmi')
+          console.log(res.data[i]);
+        //  if (res.data[i].sellerName === 'Hamahmi')
             prdc.push(res.data[i]);
         }
         self.source = prdc;
@@ -88,6 +90,10 @@ export class SmartTableComponent {
   };
 
   onCreateConfirm(event): void {
+    if(event.newData.createdAt !== null){}
+    else{
+      event.newData.createdAt = new Date();
+    }
     var NewPr = {
       id: event.newData.id,
       name: event.newData.name,
@@ -96,6 +102,7 @@ export class SmartTableComponent {
       updatedAt: event.newData.updatedAt,
       sellerName: event.newData.sellerName
     };
+    
 
     var self = this;
     this.prService.addPr(NewPr).subscribe(function (res) {
@@ -104,7 +111,12 @@ export class SmartTableComponent {
         alert("success");
         event.confirm.resolve();
       }
-    });
+    }, function(error)
+    {
+      alert("Error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + error.msg);
+    }
+  );
+
 
   }
 

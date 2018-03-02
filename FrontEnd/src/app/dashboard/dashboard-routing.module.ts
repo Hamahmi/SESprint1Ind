@@ -18,6 +18,22 @@ const routes: Routes = [
         component: HomeComponent
       },
       {
+        path: 'login',
+        loadChildren: './login/login.module#LoginModule'
+      },
+      {
+        path: 'store',
+        loadChildren: './store/store.module#StoreModule'
+      },
+      {
+        path: 'about',
+        loadChildren: './about/about.module#AboutModule'
+      },
+      {
+        path: 'signup',
+        loadChildren: './signup/signup.module#SignupModule'
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'

@@ -80,7 +80,7 @@ export class SmartTableComponent {
         var prdc = new LocalDataSource();
         for (var i = 0; i < res.data.length; i++) {
 
-          if (res.data[i].sellerName === 'Hamahmi')
+          if (res.data[i].sellerName.toUpperCase() == window.sessionStorage.username.toUpperCase())
             prdc.add(res.data[i]);
         }
         self.source = prdc;
@@ -111,7 +111,7 @@ export class SmartTableComponent {
 
     this.prService.addPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was created successfully.') {
-        if (NewPr.sellerName === 'Hamahmi')
+        if (NewPr.sellerName.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
         else
           self.source.remove(event.data);
@@ -147,7 +147,7 @@ export class SmartTableComponent {
 
     this.prService.updPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was updated successfully.') {
-        if (NewPr.sellerName === 'Hamahmi')
+        if (NewPr.sellerName.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
         else
           self.source.remove(event.data);

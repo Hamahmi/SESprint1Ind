@@ -13,10 +13,10 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  private geturl = 'http://localhost:3000/api/product/getProducts';
-  private createurl = 'http://localhost:3000/api/product/createProduct';
-  private updateurl = 'http://localhost:3000/api/product/updateProduct';
-  private deleteurl = 'http://localhost:3000/api/product/deleteProduct';
+  private geturl = 'http://localhost:3000/api/usersProducts/getProducts';
+  private createurl = 'http://localhost:3000/api/usersProducts/createProduct';
+  private updateurl = 'http://localhost:3000/api/usersProducts/updateProduct';
+  private deleteurl = 'http://localhost:3000/api/usersProducts/deleteProduct';
 
 
   getPr(): Observable<any> {

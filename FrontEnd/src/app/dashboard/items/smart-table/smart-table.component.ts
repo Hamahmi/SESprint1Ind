@@ -17,11 +17,7 @@ export class SmartTableComponent {
 
   settings = {
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-        editable: false
-      },
+      
       name: {
         title: 'Name',
         type: 'string',
@@ -41,10 +37,16 @@ export class SmartTableComponent {
         type: 'date',
         editable: false,
       },
-      sellerName: {
+      username: {
         title: 'Seller Name',
         type: 'string',
       },
+      componentNo: {
+        title: 'Component',
+        type: 'number',
+        
+      }
+      
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -80,7 +82,7 @@ export class SmartTableComponent {
         var prdc = new LocalDataSource();
         for (var i = 0; i < res.data.length; i++) {
 
-          if (res.data[i].sellerName.toUpperCase() == window.sessionStorage.username.toUpperCase())
+          if (res.data[i].username.toUpperCase() == window.sessionStorage.username.toUpperCase())
             prdc.add(res.data[i]);
         }
         self.source = prdc;
@@ -100,18 +102,19 @@ export class SmartTableComponent {
 
     event.newData.createdAt = new Date();
     var NewPr = {
-      id: event.newData.id,
       name: event.newData.name,
       price: event.newData.price,
       createdAt: event.newData.createdAt,
       updatedAt: null,
-      sellerName: event.newData.sellerName
+      username: event.newData.username,
+      componentNo: event.newData.componentNo
+
     };
     var self = this;
 
     this.prService.addPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was created successfully.') {
-        if (NewPr.sellerName.toUpperCase() === window.sessionStorage.username.toUpperCase())
+        if (NewPr.username.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
         else
           self.source.remove(event.data);
@@ -135,19 +138,19 @@ export class SmartTableComponent {
     event.newData.updatedAt = new Date();
     event.data.updatedAt = new Date();
     var NewPr = {
-      id: event.data.id,
       name: event.newData.name,
       price: event.newData.price,
       createdAt: event.data.createdAt,
       updatedAt: event.newData.updatedAt,
-      sellerName: event.newData.sellerName,
+      username: event.newData.username,
+      componentNo: event.newData.componentNo,
       _id: event.data._id
     };
     var self = this;
 
     this.prService.updPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was updated successfully.') {
-        if (NewPr.sellerName.toUpperCase() === window.sessionStorage.username.toUpperCase())
+        if (NewPr.username.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
         else
           self.source.remove(event.data);

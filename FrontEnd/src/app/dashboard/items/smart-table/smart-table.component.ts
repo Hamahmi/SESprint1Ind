@@ -33,10 +33,15 @@ export class SmartTableComponent {
       createdAt: {
         title: 'Created at',
         type: 'date',
+        editable: false,
+        default: new Date(),
+
       },
       updatedAt: {
-        title: 'Updated at',
+        title: 'Last updated at',
         type: 'date',
+        editable: false,
+        default: new Date(),
       },
       sellerName: {
         title: 'Seller Name',
@@ -53,6 +58,7 @@ export class SmartTableComponent {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -61,7 +67,7 @@ export class SmartTableComponent {
 
   };
 
-  source: Array<any>;
+  source: LocalDataSource = new LocalDataSource();
 
   constructor(private prService: ProductsService) {
     this.getPr();
@@ -72,17 +78,17 @@ export class SmartTableComponent {
     var self = this;
     this.prService.getPr().subscribe(function (res) {
       if (res.msg === 'Products retrieved successfully.') {
-        var prdc = new Array();
+        var prdc = new LocalDataSource();
         for (var i = 0; i < res.data.length; i++) {
-          console.log(res.data[i]);
-        //  if (res.data[i].sellerName === 'Hamahmi')
-            prdc.push(res.data[i]);
+
+          if (res.data[i].sellerName === 'Hamahmi')
+            prdc.add(res.data[i]);
         }
         self.source = prdc;
       }
 
     }, function (error) {
-      alert("Error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + error.msg);
+      alert("Error getPr: " + error.msg);
     }
 
     )
@@ -90,42 +96,82 @@ export class SmartTableComponent {
   };
 
   onCreateConfirm(event): void {
-    if(event.newData.createdAt !== null){}
-    else{
-      event.newData.createdAt = new Date();
-    }
+
+
     var NewPr = {
       id: event.newData.id,
       name: event.newData.name,
       price: event.newData.price,
-      createdAt: event.newData.createdAt,
-      updatedAt: event.newData.updatedAt,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       sellerName: event.newData.sellerName
     };
-    
+
 
     var self = this;
+
+
+
     this.prService.addPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was created successfully.') {
+        if (NewPr.sellerName === 'Hamahmi')
+          event.confirm.resolve(NewPr);
 
-        alert("success");
-        event.confirm.resolve();
+        alert("Prod added!");
+
+
+
       }
-    }, function(error)
-    {
-      alert("Error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + error.msg);
+    }, function (error) {
+      alert("Error Create : " + error.msg);
     }
-  );
+    );
+
+  }
 
 
+  update(event): void {
+
+    var NewPr = {
+      id: event.data.id,
+      name: event.newData.name,
+      price: event.newData.price,
+      createdAt: event.data.createdAt,
+      updatedAt: new Date(),
+      sellerName: event.newData.sellerName,
+      _id: event.data._id
+    };
+    var self = this;
+
+    this.prService.updPr(NewPr).subscribe(function (res) {
+      if (res.msg === 'Product was updated successfully.') {
+        if (NewPr.sellerName === 'Hamahmi')
+          event.confirm.resolve(NewPr);
+        else
+          self.source.remove(event.data);
+        alert("Edited ! ");
+
+      }
+    }, function (error) {
+      alert("Error update : " + error.msg);
+    }
+    );
   }
 
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-     // this.prService.delPr(event)
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
+    var self = this;
+    this.prService.delPr(event.data).subscribe(function (res) {
+
+      if (res.msg === 'Product was deleted successfully.') {
+
+        alert("deleted !");
+        event.confirm.resolve();
+      }
+    }, function (error) {
+      alert("Error del : " + error.msg);
     }
+    );
   }
 }
+
+

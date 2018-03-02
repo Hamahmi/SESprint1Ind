@@ -15,8 +15,8 @@ export class ProductsService {
 
   private geturl = 'http://localhost:3000/api/product/getProducts';
   private createurl = 'http://localhost:3000/api/product/createProduct';
-  private updateurl = 'http://localhost:3000/api/product/updateProduct/:productId';
-  private deleteurl = 'http://localhost:3000/api/product/deleteProduct/:productId';
+  private updateurl = 'http://localhost:3000/api/product/updateProduct';
+  private deleteurl = 'http://localhost:3000/api/product/deleteProduct';
 
 
   getPr(): Observable<any> {
@@ -26,5 +26,22 @@ export class ProductsService {
   addPr(product: any): Observable<any> {
     return this.http.post<any>(this.createurl, product, httpOptions);
   }
+
+  delPr(product: any): Observable<any> {
+    const id = product._id;
+    const url = `${this.deleteurl}/${id}`;
+    return this.http.delete<any>(url, httpOptions );
+  }
+
+
+  updPr(product: any): Observable<any> {
+    const id = product._id;
+    const url = `${this.updateurl}/${id}`;
+    return this.http.patch<any>(url,product, httpOptions );
+  }
+
+
+
+
 }
 

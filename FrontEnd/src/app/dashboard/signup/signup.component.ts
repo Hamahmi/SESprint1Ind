@@ -34,6 +34,7 @@ export class SignupComponent implements OnInit {
   onUpdateEmail(event:any){
     this.email=(<HTMLInputElement>event.target).value;
   }
+ 
   onRegister(){
     console.log('onRegister');
     this.input.username = this.name;

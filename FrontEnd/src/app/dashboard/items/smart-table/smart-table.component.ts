@@ -100,6 +100,9 @@ export class SmartTableComponent {
 
   onCreateConfirm(event): void {
 
+    if(window.sessionStorage.type === 'Viewer')
+      alert("You can not add products, you are only a viewer!");
+      else{
     event.newData.createdAt = new Date();
     var NewPr = {
       name: event.newData.name,
@@ -129,15 +132,19 @@ export class SmartTableComponent {
       alert("Error Create : " + error.msg);
     }
     );
-
+  }
   }
 
 
   update(event): void {
 
 
-    if(event.data.username !== window.sessionStorage.username)
+    if(window.sessionStorage.type === 'Viewer')
+      alert("You can not edit products, you are only a viewer!");
+    else if((event.data.username.toUpperCase() !== window.sessionStorage.username.toUpperCase()) && (window.sessionStorage.type === 'Manager'))
       alert('You can only change your products!');
+     
+
     else{
     event.newData.updatedAt = new Date();
     event.data.updatedAt = new Date();
@@ -146,7 +153,7 @@ export class SmartTableComponent {
       price: event.newData.price,
       createdAt: event.data.createdAt,
       updatedAt: event.newData.updatedAt,
-      username: window.sessionStorage.username,
+      username: event.data.username,
       componentNo: event.newData.componentNo,
       _id: event.data._id
     };
@@ -155,10 +162,8 @@ export class SmartTableComponent {
 
     this.prService.updPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was updated successfully.') {
-        if (NewPr.username.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
-        else
-          self.source.remove(event.data);
+
         alert(res.msg);
 
 
@@ -174,9 +179,12 @@ export class SmartTableComponent {
 
   onDeleteConfirm(event): void {
 
-    if(event.data.username !== window.sessionStorage.username)
-      alert('You can only delete your products!');
-    else{
+    if(window.sessionStorage.type === 'Viewer')
+      alert("You can not delete products, you are only a viewer!")
+    else
+      if((event.data.username.toUpperCase() !== window.sessionStorage.username.toUpperCase() )&& (window.sessionStorage.type === 'Manager'))
+       alert('You can only delete your products!');
+    else {
 
     var self = this;
     this.prService.delPr(event.data).subscribe(function (res) {

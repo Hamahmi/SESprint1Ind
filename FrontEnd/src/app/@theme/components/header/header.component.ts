@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private sidebarService: NbSidebarService,
-    private menuService: NbMenuService
+    private menuService: NbMenuService,
+     private router: Router
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,9 @@ export class HeaderComponent implements OnInit {
   onMenuClick(event) {
     if (event.title === 'Logout') {
         window.sessionStorage.username = null;
+        window.sessionStorage.type = 'Viewer';
+        alert("You have been logged out !");
+        this.router.navigate(['../dashboard/login']);
     }
   }
 }

@@ -33,6 +33,7 @@ module.exports.getUsers = async (req, res) => {
   });
 };
 
+
 module.exports.createUser = async (req, res) => {
   const valid =
     req.body.username &&

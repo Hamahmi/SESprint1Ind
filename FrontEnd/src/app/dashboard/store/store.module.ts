@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { StoreComponent } from './store.component';
+
 import { ThemeModule } from '../../@theme/theme.module';
 import { StoreRoutingModule } from './store-routing.module';
+import { SmartTableComponent } from './smart-table/smart-table.component';
+import { ProductsService } from '../../products.service';
+
 
 @NgModule({
-  imports: [
-    CommonModule,
-    StoreRoutingModule,
-    ThemeModule
-  ],
-  declarations: [StoreComponent]
+  imports: [ThemeModule, StoreRoutingModule],
+  declarations: [SmartTableComponent],
+  providers: [ProductsService]
 })
-export class StoreModule { }
+export class StoreModule {}

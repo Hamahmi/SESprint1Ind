@@ -82,7 +82,7 @@ export class SmartTableComponent {
         var prdc = new LocalDataSource();
         for (var i = 0; i < res.data.length; i++) {
 
-     //     if (res.data[i].username.toUpperCase() == window.sessionStorage.username.toUpperCase())
+          if (res.data[i].username.toUpperCase() == window.sessionStorage.username.toUpperCase())
             prdc.add(res.data[i]);
         }
         self.source = prdc;
@@ -114,10 +114,10 @@ export class SmartTableComponent {
 
     this.prService.addPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was created successfully.') {
-       // if (NewPr.username.toUpperCase() === window.sessionStorage.username.toUpperCase())
+        if (NewPr.username.toUpperCase() === window.sessionStorage.username.toUpperCase())
           event.confirm.resolve(NewPr);
-      //  else
-      //    self.source.remove(event.data);
+        else
+          self.source.remove(event.data);
         alert(res.msg);
 
 
@@ -135,10 +135,6 @@ export class SmartTableComponent {
 
   update(event): void {
 
-
-    if(event.data.username !== window.sessionStorage.username)
-      alert('You can only change your products!');
-    else{
     event.newData.updatedAt = new Date();
     event.data.updatedAt = new Date();
     var NewPr = {
@@ -151,7 +147,6 @@ export class SmartTableComponent {
       _id: event.data._id
     };
     var self = this;
-    
 
     this.prService.updPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was updated successfully.') {
@@ -170,14 +165,8 @@ export class SmartTableComponent {
     }
     );
   }
-  }
 
   onDeleteConfirm(event): void {
-
-    if(event.data.username !== window.sessionStorage.username)
-      alert('You can only delete your products!');
-    else{
-
     var self = this;
     this.prService.delPr(event.data).subscribe(function (res) {
 
@@ -195,7 +184,6 @@ export class SmartTableComponent {
     }
     );
   }
-}
 }
 
 

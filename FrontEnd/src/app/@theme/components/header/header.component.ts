@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   onMenuClick(event) {
     if (event.title === 'Logout') {
-      // Think about what to do ;)
+        window.sessionStorage.username = null;
     }
   }
 }

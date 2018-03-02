@@ -98,12 +98,12 @@ export class SmartTableComponent {
 
   onCreateConfirm(event): void {
 
-
+    event.newData.createdAt = new Date();
     var NewPr = {
       id: event.newData.id,
       name: event.newData.name,
       price: event.newData.price,
-      createdAt: new Date(),
+      createdAt: event.newData.createdAt,
       updatedAt: null,
       sellerName: event.newData.sellerName
     };
@@ -113,7 +113,8 @@ export class SmartTableComponent {
       if (res.msg === 'Product was created successfully.') {
         if (NewPr.sellerName === 'Hamahmi')
           event.confirm.resolve(NewPr);
-
+        else
+          self.source.remove(event.data);
         alert(res.msg);
 
 
@@ -131,12 +132,14 @@ export class SmartTableComponent {
 
   update(event): void {
 
+    event.newData.updatedAt = new Date();
+    event.data.updatedAt = new Date();
     var NewPr = {
       id: event.data.id,
       name: event.newData.name,
       price: event.newData.price,
       createdAt: event.data.createdAt,
-      updatedAt: new Date(),
+      updatedAt: event.newData.updatedAt,
       sellerName: event.newData.sellerName,
       _id: event.data._id
     };

@@ -82,8 +82,8 @@ module.exports.createProduct = function(req, res, next) {
     });
   }
   // Security Check
- // delete req.body.createdAt;
- // delete req.body.updatedAt;
+//  delete req.body.createdAt;
+//  delete req.body.updatedAt;
 
   Product.create(req.body, function(err, product) {
     if (err) {

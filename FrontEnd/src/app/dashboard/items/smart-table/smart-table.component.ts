@@ -34,14 +34,12 @@ export class SmartTableComponent {
         title: 'Created at',
         type: 'date',
         editable: false,
-        default: new Date(),
 
       },
       updatedAt: {
         title: 'Last updated at',
         type: 'date',
         editable: false,
-        default: new Date(),
       },
       sellerName: {
         title: 'Seller Name',
@@ -67,9 +65,10 @@ export class SmartTableComponent {
 
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  source: LocalDataSource;
 
   constructor(private prService: ProductsService) {
+    this.source = new LocalDataSource();
     this.getPr();
   }
 
@@ -86,6 +85,8 @@ export class SmartTableComponent {
         }
         self.source = prdc;
       }
+      else
+        alert(res.msg);
 
     }, function (error) {
       alert("Error getPr: " + error.msg);
@@ -103,25 +104,23 @@ export class SmartTableComponent {
       name: event.newData.name,
       price: event.newData.price,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: null,
       sellerName: event.newData.sellerName
     };
-
-
     var self = this;
-
-
 
     this.prService.addPr(NewPr).subscribe(function (res) {
       if (res.msg === 'Product was created successfully.') {
         if (NewPr.sellerName === 'Hamahmi')
           event.confirm.resolve(NewPr);
 
-        alert("Prod added!");
+        alert(res.msg);
 
 
 
       }
+      else
+        alert(res.msg);
     }, function (error) {
       alert("Error Create : " + error.msg);
     }
@@ -149,9 +148,12 @@ export class SmartTableComponent {
           event.confirm.resolve(NewPr);
         else
           self.source.remove(event.data);
-        alert("Edited ! ");
+        alert(res.msg);
+
 
       }
+      else
+        alert(res.msg);
     }, function (error) {
       alert("Error update : " + error.msg);
     }
@@ -164,9 +166,13 @@ export class SmartTableComponent {
 
       if (res.msg === 'Product was deleted successfully.') {
 
-        alert("deleted !");
+
         event.confirm.resolve();
+        alert(res.msg);
       }
+
+      else
+        alert(res.msg);
     }, function (error) {
       alert("Error del : " + error.msg);
     }

@@ -13,6 +13,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/dashboard/store'
   },
   {
+    title: 'C1 Items',
+    icon: 'fa fa-wheelchair',
+    link: '/dashboard/cone'
+  },
+  {
     title: 'Login',
     icon: 'fa fa-user',
     link: '/dashboard/login'

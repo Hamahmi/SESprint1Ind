@@ -8,12 +8,13 @@ import { HomeComponent } from './home/home.component';
 import { StoreComponent } from './store/store.component';
 import { AboutComponent } from './about/about.component';
 import { SignupComponent } from './signup/signup.component';
+import { ConeComponent } from './cone/cone.component';
 
 
 
 @NgModule({
   imports: [ThemeModule, DashboardRoutingModule],
-  declarations: [DashboardComponent, HomeComponent],
+  declarations: [DashboardComponent, HomeComponent, ConeComponent],
   entryComponents: [],
   providers: []
 })
